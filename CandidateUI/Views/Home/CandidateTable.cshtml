@@ -1,0 +1,171 @@
+﻿@section Styles {
+    <!-- Datatables CSS -->
+    <link href="~/assets/vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/vendor/datatables.net-fixedcolumns-bs5/css/fixedColumns.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/vendor/datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/vendor/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/vendor/datatables.net-select-bs5/css/select.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css" rel="stylesheet">
+
+
+    <!-- Theme Config JS -->
+    <script src="~/assets/js/config.js"></script>
+
+    <style>
+        .AddCandidate-Div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Attex</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Tables</a></li>
+                    <li class="breadcrumb-item active">Data Tables</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Data Tables</h4>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="AddCandidate-Div mb-4">
+                    <h4 class="header-title">All Candidates</h4>
+                    <a class="btn btn-primary" href="@Url.Action("AddCandidate", "Home")">Add Candidate</a>
+                </div>
+                <table id="scroll-horizontal-datatable" class="table table-striped" style="width: 100% !important;">
+                    <thead>
+                        <tr>
+                            <th>Can_Id</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Address</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div> <!-- end card-body -->
+        </div> <!-- end card -->
+    </div> <!-- end col -->
+</div>
+
+@section Scripts {
+    <!-- Datatables JS -->
+    <script src="~/assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-fixedcolumns-bs5/js/fixedColumns.bootstrap5.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
+    <script src="~/assets/js/pages/demo.datatable-init.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            GetAllCandidates();
+        });
+
+        function GetAllCandidates() {
+            const tableId = "#scroll-horizontal-datatable";
+
+            // Check if the DataTable is already initialized
+            if ($.fn.DataTable.isDataTable(tableId)) {
+                $(tableId).DataTable().clear().destroy(); // Clear and destroy the existing instance
+            }
+
+            // Initialize DataTable
+            $(tableId).DataTable({
+                language: {
+                    sLengthMenu: "Show _MENU_ entries",
+                },
+                ajax: {
+                    url: "https://localhost:7187/api/Candidate/GetAllCandidates",
+                    type: "GET",
+                    dataSrc: ""
+                },
+                columns: [
+                    { data: "id" },
+                    { data: "name" },
+                    { data: "phone" },
+                    { data: "email" },
+
+                    { data: "age" },
+                    { data: "gender" },
+                    { data: "address" },
+                    {
+                        data: "id",
+                        render: function (a, b, c) {
+                            return `
+                                         <span class="text-info" style="cursor: pointer; font-size: 1.2rem;" onclick ="redirectgetByID(${a})"><i class="ri-edit-box-line"></i> </span>&nbsp;&nbsp;&nbsp;
+                                          <span class="text-danger" style="cursor: pointer; font-size: 1.2rem;" onclick ="deleteCondidate(${a})"><i class="ri-delete-bin-7-line"></i> </span>&nbsp;&nbsp;&nbsp;
+                                    `;
+                        }
+                    }
+                ]
+            });
+        }
+
+        function redirectgetByID(id) {
+            window.location.href = window.location.origin + "/Home/AddCandidate?id=" + id
+
+        }
+        function deleteCondidate(id) {
+
+           Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                   
+                    $.ajax({
+                        url: `https://localhost:7187/api/Candidate/DeleteCandidate/` + id,
+                        type: 'DELETE',
+                        success: function (resp) {
+                            Swal.fire(
+                                'Deleted!',
+                                'Your item has been deleted.',
+                                'success'
+                            ).then(function(){
+                                GetAllCandidates()
+                            })
+                        },
+                        error: function (err) {
+                            console.log("error")
+                        }
+                    })
+
+                }
+            });
+        }
+
+
+    </script>
+}
