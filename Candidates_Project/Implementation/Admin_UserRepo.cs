@@ -2,6 +2,7 @@
 using Candidates_Project.Model;
 using Candidates_Project.Repository;
 using Microsoft.Data.SqlClient;
+using Microsoft.Identity.Client;
 
 namespace Candidates_Project.Implementation
 {
@@ -64,8 +65,6 @@ namespace Candidates_Project.Implementation
 
             return admin_Users;
         }
-
-
 
         public Response GetAdminUserById(int Id)
         {
@@ -147,6 +146,14 @@ namespace Candidates_Project.Implementation
             Response r = new Response();
             try
             {
+                if (IfEmailExist(admin_User.Email))
+                {
+                    r.resp = false;
+                    r.respMsg = "Email already exists.";
+                    r.respObj = null;
+                    return r; // Return early to avoid duplicate entries
+                }
+
                 using (SqlConnection con = new SqlConnection(config.GetConnectionString("AlphaDev")))
                 {
                     string query = "INSERT INTO Admin_User_Table (Name, Email, IsAdmin,Password, Created_By, Created_On) VALUES (@Name, @Email, @IsAdmin,@Password, @Created_By, @Created_On);";
@@ -270,6 +277,37 @@ namespace Candidates_Project.Implementation
             }
 
             return r;
+        }
+
+        public bool IfEmailExist(string email)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(config.GetConnectionString("AlphaDev")))
+                {
+                    string query = "SELECT * FROM Admin_User_Table WHERE Email = '" + email + "'";
+                    SqlCommand cmd = new SqlCommand(query, con);
+
+                    con.Open();
+                    var sdr = cmd.ExecuteReader();
+                    if (sdr.HasRows && sdr.Read())
+                    {
+                        return true;
+
+                    }
+                    else
+                    {
+                        return false;
+
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
         }
 
     }

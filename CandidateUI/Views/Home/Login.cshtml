@@ -23,6 +23,8 @@
 
     <!-- Icons css -->
     <link href="~/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.js"></script>
+
 </head>
 
 <body class="authentication-bg position-relative">
@@ -208,36 +210,32 @@
 
                         <div class="card-body p-4">
 
-                            <form action="#">
+                            <div class="mb-3">
+                                <label for="emailaddress" class="form-label">Email address</label>
+                                <input class="form-control" type="email" id="email" required="" placeholder="Enter your email">
+                            </div>
 
-                                <div class="mb-3">
-                                    <label for="emailaddress" class="form-label">Email address</label>
-                                    <input class="form-control" type="email" id="emailaddress" required="" placeholder="Enter your email">
-                                </div>
-
-                                <div class="mb-3">
-                                    <a href="auth-recoverpw.html" class="text-muted float-end fs-12">Forgot your password?</a>
-                                    <label for="password" class="form-label">Password</label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="password" id="password" class="form-control" placeholder="Enter your password">
-                                        <div class="input-group-text" data-password="false">
-                                            <span class="password-eye"></span>
-                                        </div>
+                            <div class="mb-3">
+                                <a href="auth-recoverpw.html" class="text-muted float-end fs-12">Forgot your password?</a>
+                                <label for="password" class="form-label">Password</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="password" id="password" class="form-control" placeholder="Enter your password">
+                                    <div class="input-group-text" data-password="false">
+                                        <span class="password-eye"></span>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="mb-3 mb-3">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="checkbox-signin" checked>
-                                        <label class="form-check-label" for="checkbox-signin">Remember me</label>
-                                    </div>
+                            <div class="mb-3 mb-3">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="checkbox-signin" checked>
+                                    <label class="form-check-label" for="checkbox-signin">Remember me</label>
                                 </div>
+                            </div>
 
-                                <div class="mb-3 mb-0 text-center">
-                                    <button class="btn btn-primary" type="submit"> Log In </button>
-                                </div>
-
-                            </form>
+                            <div class="mb-3 mb-0 text-center">
+                                <button class="btn btn-primary" type="submit" onclick="SaveLogin()"> Log In </button>
+                            </div>
                         </div> <!-- end card-body -->
                     </div>
                     <!-- end card -->
@@ -256,14 +254,78 @@
         <!-- end container -->
     </div>
     <!-- end page -->
-
     <!-- Vendor js -->
     <script src="~/assets/js/vendor.min.js"></script>
 
     <!-- App js -->
     <script src="~/assets/js/app.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.js"></script>
+    <script>
+        function SaveLogin(){
+
+            loginObj={
+                email:$("#email").val(),
+                password:$("#password").val()
+            };
+
+                 let isValid = true;
+
+            // Validation logic
+            if ($('#email').val()) {
+                $("#email").removeClass('is-invalid').addClass('is-valid');
+            } else {
+                $("#email").removeClass('is-valid').addClass('is-invalid');
+                isValid = false;
+            }
+              if ($('#password').val()) {
+                $("#password").removeClass('is-invalid').addClass('is-valid');
+            } else {
+                $("#password").removeClass('is-valid').addClass('is-invalid');
+                isValid = false;
+            }
+
+               if (isValid) {
+                $.ajax({
+                    url: 'https://localhost:7187/api/Login/SaveLogin',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(loginObj),
+                    success: function (resp) {
+                     if (resp == true) {
+                           Swal.fire({
+                icon: 'success',
+                title: 'Login Successful',
+                // text: 'Welcome back!',
+                confirmButtonText: 'OK'
+            }).then(function(){
+                window.location.href = window.location.origin + "/home/Index";
+            });
+        }
+        else{
+            Swal.fire({
+            icon: 'error',
+            title: 'Login Failed',
+            text: 'Account does not exist. Please try again or sign up.',
+            confirmButtonText: 'Retry'
+        });
+         $("#email").val("");
+        $("#password").val("");
+          $("#email").removeClass('is-valid ').addClass('is-invalid');
+          $("#password").removeClass('is-valid').addClass('is-invalid');
+        }
+                    },
+                    error:function(err){
+                        alert("Error")
+                    }
+
+                });
+            }
+            else{
+
+            }
+        }
+    </script>
 </body>
-
-<!-- Mirrored from coderthemes.com/attex-bundle/layouts/auth-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 21 Nov 2024 11:16:00 GMT -->
 </html>

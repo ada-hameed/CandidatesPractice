@@ -6,7 +6,7 @@
     public string Password { get; set; }
     public bool IsAdmin { get; set; }
     public string Created_By { get; set; }
-    public DateTime? Created_On { get; set; }  // Nullable DateTime
+    public DateTime? Created_On { get; set; }  
     public string Updated_By { get; set; }
-    public DateTime? Updated_On { get; set; }  // Nullable DateTime
+    public DateTime? Updated_On { get; set; } 
 }

@@ -14,6 +14,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<ICandidateRepo, CandidateRepo>();
 builder.Services.AddTransient<IAdmin_UserRepo, Admin_UserRepo>();
+builder.Services.AddTransient<ILoginRepo, LoginRepo>();
 
 #region CORS
 builder.Services.AddCors(options =>
