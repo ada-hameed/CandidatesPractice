@@ -4,7 +4,7 @@
         <div class="page-title-box">
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                   @*  <li class="breadcrumb-item"><a href="javascript: void(0);">Attex</a></li>
+                    @*  <li class="breadcrumb-item"><a href="javascript: void(0);">Attex</a></li>
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
                     <li class="breadcrumb-item active">Form Elements</li> *@
                 </ol>
@@ -44,7 +44,7 @@
                             <input type="text" id="age" class="form-control" maxlength="2" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="row">
 
@@ -67,18 +67,18 @@
                         </div>
                     </div>
 
-                  
+
                 </div>
                 <div class="row">
                     <div class="col-lg-3">
                         <button type="button" class="btn btn-primary" id="btnSave">Save</button>
                     </div>
-                   @*  <div class="col-lg-3">
+                    @*  <div class="col-lg-3">
                         <button type="button" class="btn btn-primary" id="btnUpdate">Update</button>
                     </div> *@
                 </div>
             </div>
-        </div> 
+        </div>
     </div>
 </div>
 
@@ -89,196 +89,205 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.js"></script>
 
     <script>
-        
-            let searchResult = new URLSearchParams(window.location.search)
-            let id = searchResult.get("id")
+        let searchResult = new URLSearchParams(window.location.search)
+        let id = searchResult.get("id")
         $(document).ready(function () {
-            if (id) {
-                $('#btnSave').text("UPDATE")
-                GetCandidateById()
-            }
+        if (id) {
+            $('#btnSave').text("UPDATE")
+            GetCandidateById()
+        }
         });
 
-     
+
         function SaveCandidate() {
-            let emp = {
-                name: $('#name').val(),
-                email:$("#email").val(),
-                phone: $('#phone').val(),
-                age: $('#age').val(),
-                gender: $('#gender').val(),
-                address: $('#address').val()
-            };
+        let emp = {
+            name: $('#name').val(),
+            email:$("#email").val(),
+            phone: $('#phone').val(),
+            age: $('#age').val(),
+            gender: $('#gender').val(),
+            address: $('#address').val()
+        };
 
-            var isValid = true;
+        var isValid = true;
 
-            // Validation logic
-            if ($('#name').val()) {
-                $("#name").removeClass('is-invalid').addClass('is-valid');
-            } else {
-                $("#name").removeClass('is-valid').addClass('is-invalid');
-                isValid = false;
-            }
-            if ($('#email').val()) {
-                $("#email").removeClass('is-invalid').addClass('is-valid');
-            } else {
-                $("#email").removeClass('is-valid').addClass('is-invalid');
-                isValid = false;
-            }
-            if ($('#phone').val()) {
-                $("#phone").removeClass('is-invalid').addClass('is-valid');
-            } else {
-                $("#phone").removeClass('is-valid').addClass('is-invalid');
-                isValid = false;
-            }
-            if ($('#age').val()) {
-                $("#age").removeClass('is-invalid').addClass('is-valid');
-            } else {
-                $("#age").removeClass('is-valid').addClass('is-invalid');
-                isValid = false;
-            }
-            if ($('#gender').val()) {
-                $("#gender").removeClass('is-invalid').addClass('is-valid');
-            } else {
-                $("#gender").removeClass('is-valid').addClass('is-invalid');
-                isValid = false;
-            }
-            if ($('#address').val()) {
-                $("#address").removeClass('is-invalid').addClass('is-valid');
-            } else {
-                $("#address").removeClass('is-valid').addClass('is-invalid');
-                isValid = false;
-            }
-
-            if (isValid) {
-                $.ajax({
-                    url: 'https://localhost:7187/api/Candidate/SaveCandidate',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(emp),
-                    success: function (resp) {
-                        // console.log(resp);
-                        Swal.fire({
-                            title: 'Saved!',
-                            text: 'Candidate has been saved successfully!',
-                            icon: 'success',
-                        }).then(function () {
-                            window.location.href = window.location.origin + "/home/CandidateTable";
-                        });
-                    },
-                    error:function(err){
-                        alert("Error")
-                    }
-                   
-                });
-            }
-          
+        // Validation logic
+        if ($('#name').val()) {
+            $("#name").removeClass('is-invalid').addClass('is-valid');
+        } else {
+            $("#name").removeClass('is-valid').addClass('is-invalid');
+            isValid = false;
+        }
+        if ($('#email').val()) {
+            $("#email").removeClass('is-invalid').addClass('is-valid');
+        } else {
+            $("#email").removeClass('is-valid').addClass('is-invalid');
+            isValid = false;
+        }
+        if ($('#phone').val()) {
+            $("#phone").removeClass('is-invalid').addClass('is-valid');
+        } else {
+            $("#phone").removeClass('is-valid').addClass('is-invalid');
+            isValid = false;
+        }
+        if ($('#age').val()) {
+            $("#age").removeClass('is-invalid').addClass('is-valid');
+        } else {
+            $("#age").removeClass('is-valid').addClass('is-invalid');
+            isValid = false;
+        }
+        if ($('#gender').val()) {
+            $("#gender").removeClass('is-invalid').addClass('is-valid');
+        } else {
+            $("#gender").removeClass('is-valid').addClass('is-invalid');
+            isValid = false;
+        }
+        if ($('#address').val()) {
+            $("#address").removeClass('is-invalid').addClass('is-valid');
+        } else {
+            $("#address").removeClass('is-valid').addClass('is-invalid');
+            isValid = false;
         }
 
-        function GetCandidateById() {
+        if (isValid) {
             $.ajax({
-                url: 'https://localhost:7187/api/Candidate/GetCandidateById/' + id,
-                type: 'GET',
+                url: 'https://localhost:7187/api/Candidate/SaveCandidate',
+                type: 'POST',
                 contentType: 'application/json',
+                data: JSON.stringify(emp),
                 success: function (resp) {
-                    $("#name").val(resp.respObj.name);
-                    $("#phone").val(resp.respObj.phone);
-                    $("#email").val(resp.respObj.email);
-                    $("#age").val(resp.respObj.age);
-                    $("#gender").val(resp.respObj.gender).trigger('change');
-                    $("#address").val(resp.respObj.address);
-
+                    // console.log(resp);
+                   if(resp.resp == true){
+                        Swal.fire({
+                        title: 'Saved!',
+                        text: 'Candidate has been saved successfully!',
+                        icon: 'success',
+                    }).then(function () {
+                        window.location.href = window.location.origin + "/home/CandidateTable";
+                    });
+                   }
+                   else{
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Failed',
+                        text: 'Email or phone already exists',
+                        confirmButtonText: 'Retry'
+                      });
+                   }
                 },
-                error: function (err) {
-                    console.log('Error')
+                error:function(err){
+                    alert("Error")
                 }
 
             });
         }
 
+        }
+
+        function GetCandidateById() {
+        $.ajax({
+            url: 'https://localhost:7187/api/Candidate/GetCandidateById/' + id,
+            type: 'GET',
+            contentType: 'application/json',
+            success: function (resp) {
+                $("#name").val(resp.respObj.name);
+                $("#phone").val(resp.respObj.phone);
+                $("#email").val(resp.respObj.email);
+                $("#age").val(resp.respObj.age);
+                $("#gender").val(resp.respObj.gender).trigger('change');
+                $("#address").val(resp.respObj.address);
+
+            },
+            error: function (err) {
+                console.log('Error')
+            }
+
+        });
+        }
+
         function UpdateCandidate() {
-           
-            let isValid = true;
 
-            // Validation logic
-            if ($('#name').val()) {
-                $("#name").removeClass('is-invalid').addClass('is-valid');
-            } else {
-                $("#name").removeClass('is-valid').addClass('is-invalid');
-                isValid = false;
-            }
+        let isValid = true;
 
-            if ($('#email').val()) {
-                $("#email").removeClass('is-invalid').addClass('is-valid');
-            } else {
-                $("#email").removeClass('is-valid').addClass('is-invalid');
-                isValid = false;
-            }
-            if ($('#phone').val()) {
-                $("#phone").removeClass('is-invalid').addClass('is-valid');
-            } else {
-                $("#phone").removeClass('is-valid').addClass('is-invalid');
-                isValid = false;
-            }
-            if ($('#age').val()) {
-                $("#age").removeClass('is-invalid').addClass('is-valid');
-            } else {
-                $("#age").removeClass('is-valid').addClass('is-invalid');
-                isValid = false;
-            }
-            if ($('#gender').val()) {
-                $("#gender").removeClass('is-invalid').addClass('is-valid');
-            } else {
-                $("#gender").removeClass('is-valid').addClass('is-invalid');
-                isValid = false;
-            }
-            if ($('#address').val()) {
-                $("#address").removeClass('is-invalid').addClass('is-valid');
-            } else {
-                $("#address").removeClass('is-valid').addClass('is-invalid');
-                isValid = false;
-            }
+        // Validation logic
+        if ($('#name').val()) {
+            $("#name").removeClass('is-invalid').addClass('is-valid');
+        } else {
+            $("#name").removeClass('is-valid').addClass('is-invalid');
+            isValid = false;
+        }
 
-             let emp = {
-                id: id,
-                name: $('#name').val(),
-                phone: $('#phone').val(),
-                email:$("#email").val(),
-                age: $('#age').val(),
-                gender: $('#gender').val(),
-                address: $('#address').val()
-            };
+        if ($('#email').val()) {
+            $("#email").removeClass('is-invalid').addClass('is-valid');
+        } else {
+            $("#email").removeClass('is-valid').addClass('is-invalid');
+            isValid = false;
+        }
+        if ($('#phone').val()) {
+            $("#phone").removeClass('is-invalid').addClass('is-valid');
+        } else {
+            $("#phone").removeClass('is-valid').addClass('is-invalid');
+            isValid = false;
+        }
+        if ($('#age').val()) {
+            $("#age").removeClass('is-invalid').addClass('is-valid');
+        } else {
+            $("#age").removeClass('is-valid').addClass('is-invalid');
+            isValid = false;
+        }
+        if ($('#gender').val()) {
+            $("#gender").removeClass('is-invalid').addClass('is-valid');
+        } else {
+            $("#gender").removeClass('is-valid').addClass('is-invalid');
+            isValid = false;
+        }
+        if ($('#address').val()) {
+            $("#address").removeClass('is-invalid').addClass('is-valid');
+        } else {
+            $("#address").removeClass('is-valid').addClass('is-invalid');
+            isValid = false;
+        }
 
-            if (isValid) {
-                $.ajax({
-                    url: 'https://localhost:7187/api/Candidate/UpdateCandidate',
-                    type: 'PUT',
-                    contentType: 'application/json',
-                    data: JSON.stringify(emp),
-                    success: function (resp) {
-                        Swal.fire({
-                            title: 'Update!',
-                            text: 'Candidate has been updated successfully!',
-                            icon: 'success',
-                        }).then(function () {
-                            window.location.href = window.location.origin + "/home/CandidateTable";
-                        });
-                    },
-                    error: function (err) {
-                        console.error(err); 
-                        alert("Error occurred while updating the candidate.");
-                    }
-                });
-            }
+         let emp = {
+            id: id,
+            name: $('#name').val(),
+            phone: $('#phone').val(),
+            email:$("#email").val(),
+            age: $('#age').val(),
+            gender: $('#gender').val(),
+            address: $('#address').val()
+        };
+
+        if (isValid) {
+            $.ajax({
+                url: 'https://localhost:7187/api/Candidate/UpdateCandidate',
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(emp),
+                success: function (resp) {
+                    Swal.fire({
+                        title: 'Update!',
+                        text: 'Candidate has been updated successfully!',
+                        icon: 'success',
+                    }).then(function () {
+                        window.location.href = window.location.origin + "/home/CandidateTable";
+                    });
+                },
+                error: function (err) {
+                    console.error(err);
+                    alert("Error occurred while updating the candidate.");
+                }
+            });
+        }
         }
 
 
         $('#btnSave').click(function () {
-            if (id) {
-                UpdateCandidate();
-            } else {
-                SaveCandidate() ;
-            }
+        if (id) {
+            UpdateCandidate();
+        } else {
+            SaveCandidate() ;
+        }
         });
     </script>
 }

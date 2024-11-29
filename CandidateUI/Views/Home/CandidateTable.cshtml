@@ -91,12 +91,10 @@
         function GetAllCandidates() {
             const tableId = "#scroll-horizontal-datatable";
 
-            // Check if the DataTable is already initialized
             if ($.fn.DataTable.isDataTable(tableId)) {
-                $(tableId).DataTable().clear().destroy(); // Clear and destroy the existing instance
+                $(tableId).DataTable().clear().destroy(); 
             }
 
-            // Initialize DataTable
             $(tableId).DataTable({
                 language: {
                     sLengthMenu: "Show _MENU_ entries",
@@ -111,16 +109,14 @@
                     { data: "name" },
                     { data: "phone" },
                     { data: "email" },
-
                     { data: "age" },
                     { data: "gender" },
                     { data: "address" },
                     {
                         data: "id",
                         render: function (a, b, c) {
-                            return `
-                                         <span class="text-info" style="cursor: pointer; font-size: 1.2rem;" onclick ="redirectgetByID(${a})"><i class="ri-edit-box-line"></i> </span>&nbsp;&nbsp;&nbsp;
-                                          <span class="text-danger" style="cursor: pointer; font-size: 1.2rem;" onclick ="deleteCondidate(${a})"><i class="ri-delete-bin-7-line"></i> </span>&nbsp;&nbsp;&nbsp;
+                            return `<span class="text-info" style="cursor: pointer; font-size: 1.2rem;" onclick ="redirectgetByID(${a})"><i class="ri-edit-box-line"></i> </span>&nbsp;&nbsp;&nbsp;
+                                    <span class="text-danger" style="cursor: pointer; font-size: 1.2rem;" onclick ="deleteCondidate(${a})"><i class="ri-delete-bin-7-line"></i> </span>&nbsp;&nbsp;&nbsp;
                                     `;
                         }
                     }
@@ -132,6 +128,7 @@
             window.location.href = window.location.origin + "/Home/AddCandidate?id=" + id
 
         }
+
         function deleteCondidate(id) {
 
            Swal.fire({

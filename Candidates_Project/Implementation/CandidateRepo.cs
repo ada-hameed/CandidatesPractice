@@ -114,6 +114,14 @@ namespace Candidates_Project.Implementation
 
             try
             {
+                if (emailPChoneCheck(candidate.Email, candidate.Phone))
+                {
+                    r.resp = false;
+                    r.respMsg = "Email and phone already exist.";
+                    r.respObj = null;
+                    return r; 
+                }
+
                 using (SqlConnection con = new SqlConnection(config.GetConnectionString("AlphaDev")))
                 {
                     string query = "INSERT INTO Candidates_Practice (Name, Phone,Email, Age, Gender, Address) VALUES (@Name, @Phone,@Email, @Age, @Gender, @Address);";
@@ -240,6 +248,40 @@ namespace Candidates_Project.Implementation
 
             return r;
         }
+
+        public bool emailPChoneCheck(string email, long phone)
+        {
+            try
+            {
+                using ( SqlConnection con = new SqlConnection(config.GetConnectionString("AlphaDev")))
+                {
+                    string query = "SELECT * FROM Candidates_Practice WHERE Email = @Email OR Phone = @Phone";
+
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@Phone", phone);
+
+                    con.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        return true; 
+                    }
+                    else
+                    {
+                        return false; 
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+           
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
 
     }
 }
