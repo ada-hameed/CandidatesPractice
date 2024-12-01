@@ -39,7 +39,20 @@ namespace Candidates_Project.Implementation
                                 Phone = long.Parse(sdr["Phone"].ToString()),
                                 Age = int.Parse(sdr["Age"].ToString()),
                                 Gender = sdr["Gender"].ToString(),
-                                Address = sdr["Address"].ToString()
+                                Address = sdr["Address"].ToString(),
+                                IsAdmin = bool.Parse(sdr["IsAdmin"].ToString()),
+                                Created_By = sdr["Created_By"].ToString(),
+
+
+                                Created_On = sdr["Created_On"] != DBNull.Value && DateTime.TryParse(sdr["Created_On"].ToString(), out DateTime createdOn)
+                                    ? (DateTime?)createdOn
+                                    : null,
+
+                                Updated_By = sdr["Updated_By"].ToString(),
+
+                                Updated_On = sdr["Updated_On"] != DBNull.Value && DateTime.TryParse(sdr["Updated_On"].ToString(), out DateTime updatedOn)
+                                    ? (DateTime?)updatedOn
+                                    : null
                             };
                             candidates.Add(candidate);
                         }
@@ -83,6 +96,26 @@ namespace Candidates_Project.Implementation
                             candidate.Age = int.Parse(sdr["Age"].ToString());
                             candidate.Gender = sdr["Gender"].ToString();
                             candidate.Address = sdr["Address"].ToString();
+                            candidate.IsAdmin = bool.Parse(sdr["IsAdmin"].ToString());
+                            candidate.Created_By = sdr["Created_By"].ToString();
+                            if (sdr["Created_On"] != DBNull.Value && !string.IsNullOrEmpty(sdr["Created_On"].ToString()))
+                            {
+                                candidate.Created_On = DateTime.Parse(sdr["Created_On"].ToString());
+                            }
+                            else
+                            {
+                                candidate.Created_On = DateTime.MinValue; 
+                            }
+
+                            candidate.Updated_By = sdr["Updated_By"].ToString();
+                            if (sdr["Updated_On"] != DBNull.Value && !string.IsNullOrEmpty(sdr["Updated_On"].ToString()))
+                            {
+                                candidate.Updated_On = DateTime.Parse(sdr["Updated_On"].ToString());
+                            }
+                            else
+                            {
+                                candidate.Updated_On = DateTime.MinValue; 
+                            }
                         }
                         r.resp = true;
                         r.respMsg = "Successfully fetched.";
@@ -119,12 +152,12 @@ namespace Candidates_Project.Implementation
                     r.resp = false;
                     r.respMsg = "Email and phone already exist.";
                     r.respObj = null;
-                    return r; 
+                    return r;
                 }
 
                 using (SqlConnection con = new SqlConnection(config.GetConnectionString("AlphaDev")))
                 {
-                    string query = "INSERT INTO Candidates_Practice (Name, Phone,Email, Age, Gender, Address) VALUES (@Name, @Phone,@Email, @Age, @Gender, @Address);";
+                    string query = "INSERT INTO Candidates_Practice (Name, Phone,Email, Age, Gender, Address,IsAdmin,Created_By,Created_On) VALUES (@Name, @Phone,@Email, @Age, @Gender, @Address,@IsAdmin,@Created_By,@Created_On);";
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@Name", candidate.Name);
                     cmd.Parameters.AddWithValue("@Phone", candidate.Phone);
@@ -132,6 +165,10 @@ namespace Candidates_Project.Implementation
                     cmd.Parameters.AddWithValue("@Age", candidate.Age);
                     cmd.Parameters.AddWithValue("@Gender", candidate.Gender);
                     cmd.Parameters.AddWithValue("@Address", candidate.Address);
+                    cmd.Parameters.AddWithValue("@IsAdmin", candidate.IsAdmin);
+                    cmd.Parameters.AddWithValue("@Created_By", candidate.Created_By);
+                    cmd.Parameters.AddWithValue("@Created_On", candidate.Created_On);
+                  
 
                     con.Open();
 
@@ -167,7 +204,7 @@ namespace Candidates_Project.Implementation
             {
                 using (SqlConnection con = new SqlConnection(config.GetConnectionString("AlphaDev")))
                 {
-                    string query = "UPDATE Candidates_Practice SET Name = @Name, Phone = @Phone, Email = @Email, Age = @Age, Gender = @Gender, Address = @Address WHERE Id = @Id";
+                    string query = "UPDATE Candidates_Practice SET Name = @Name, Phone = @Phone, Email = @Email, Age = @Age, Gender = @Gender, Address = @Address,IsAdmin = @IsAdmin,Updated_By = @Updated_By,Updated_On = @Updated_On WHERE Id = @Id";
 
                     SqlCommand cmd = new SqlCommand(query, con);
 
@@ -177,6 +214,9 @@ namespace Candidates_Project.Implementation
                     cmd.Parameters.AddWithValue("@Age", candidate.Age);
                     cmd.Parameters.AddWithValue("@Gender", candidate.Gender);
                     cmd.Parameters.AddWithValue("@Address", candidate.Address);
+                    cmd.Parameters.AddWithValue("@IsAdmin", candidate.IsAdmin);
+                    cmd.Parameters.AddWithValue("@Updated_By", candidate.Updated_By);
+                    cmd.Parameters.AddWithValue("@Updated_On", candidate.Updated_On);
                     cmd.Parameters.AddWithValue("@Id", candidate.Id);
 
                     con.Open();
@@ -253,7 +293,7 @@ namespace Candidates_Project.Implementation
         {
             try
             {
-                using ( SqlConnection con = new SqlConnection(config.GetConnectionString("AlphaDev")))
+                using (SqlConnection con = new SqlConnection(config.GetConnectionString("AlphaDev")))
                 {
                     string query = "SELECT * FROM Candidates_Practice WHERE Email = @Email OR Phone = @Phone";
 
@@ -266,17 +306,17 @@ namespace Candidates_Project.Implementation
 
                     if (reader.HasRows)
                     {
-                        return true; 
+                        return true;
                     }
                     else
                     {
-                        return false; 
+                        return false;
                     }
                 }
             }
             catch (Exception ex)
             {
-           
+
                 Console.WriteLine(ex.Message);
                 return false;
             }

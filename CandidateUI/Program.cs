@@ -29,7 +29,7 @@ namespace CandidateUI
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=login}/{id?}");
+                pattern: "{controller=Home}/{action=index}/{id?}");
 
             app.Run();
         }

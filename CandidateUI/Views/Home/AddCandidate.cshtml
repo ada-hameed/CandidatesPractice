@@ -67,6 +67,19 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="simpleinput" class="form-label">Role</label>
+                                <select class="form-select " id="role">
+                                    <option selected="" disabled>Select Role</option>
+                                    <option value="true">Admin</option>
+                                    <option value="false">User</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
                 <div class="row">
@@ -82,11 +95,7 @@
     </div>
 </div>
 
-@section Styles {
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css" rel="stylesheet">
-}
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.js"></script>
 
     <script>
         let searchResult = new URLSearchParams(window.location.search)
@@ -106,7 +115,14 @@
             phone: $('#phone').val(),
             age: $('#age').val(),
             gender: $('#gender').val(),
-            address: $('#address').val()
+            address: $('#address').val(),
+
+        isAdmin: JSON.parse($("#role").val()),
+            created_By: "string",
+            created_On: new Date().toISOString(),
+            updated_By: "string",
+            updated_On: new Date().toISOString()
+
         };
 
         var isValid = true;
@@ -146,6 +162,13 @@
             $("#address").removeClass('is-invalid').addClass('is-valid');
         } else {
             $("#address").removeClass('is-valid').addClass('is-invalid');
+            isValid = false;
+        }
+
+         if ($('#role').val()) {
+            $("#role").removeClass('is-invalid').addClass('is-valid');
+        } else {
+            $("#role").removeClass('is-valid').addClass('is-invalid');
             isValid = false;
         }
 
@@ -190,11 +213,13 @@
             type: 'GET',
             contentType: 'application/json',
             success: function (resp) {
+                let role =JSON.stringify(resp.respObj.isAdmin)
                 $("#name").val(resp.respObj.name);
                 $("#phone").val(resp.respObj.phone);
                 $("#email").val(resp.respObj.email);
                 $("#age").val(resp.respObj.age);
                 $("#gender").val(resp.respObj.gender).trigger('change');
+                $("#role").val(role).trigger('change');
                 $("#address").val(resp.respObj.address);
 
             },
@@ -243,8 +268,16 @@
         }
         if ($('#address').val()) {
             $("#address").removeClass('is-invalid').addClass('is-valid');
-        } else {
+        }
+        else {
             $("#address").removeClass('is-valid').addClass('is-invalid');
+            isValid = false;
+        }
+           if ($('#role').val()) {
+            $("#role").removeClass('is-invalid').addClass('is-valid');
+        }
+        else {
+            $("#role").removeClass('is-valid').addClass('is-invalid');
             isValid = false;
         }
 
@@ -255,7 +288,12 @@
             email:$("#email").val(),
             age: $('#age').val(),
             gender: $('#gender').val(),
-            address: $('#address').val()
+            address: $('#address').val(),
+                    isAdmin: JSON.parse($("#role").val()),
+            created_By: "string",
+            created_On: new Date().toISOString(),
+            updated_By: "string",
+            updated_On: new Date().toISOString()
         };
 
         if (isValid) {

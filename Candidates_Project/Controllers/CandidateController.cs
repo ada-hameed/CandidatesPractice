@@ -28,6 +28,7 @@ namespace Candidates_Project.Controllers
 
 
         }
+
         [HttpGet("{Id}")]
         public IActionResult GetCandidateById(int Id)
         {

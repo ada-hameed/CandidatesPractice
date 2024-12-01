@@ -1,0 +1,156 @@
+﻿
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    @*  <li class="breadcrumb-item"><a href="javascript: void(0);">Attex</a></li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                    <li class="breadcrumb-item active">Form Elements</li> *@
+                </ol>
+            </div>
+            <h4 class="page-title">Add Book</h4>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="simpleinput" class="form-label">Title</label>
+                            <input type="text" id="title" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="simpleinput" class="form-label">Author</label>
+                            <input type="text" id="author" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="simpleinput" class="form-label">Category</label>
+                            <select class="form-select mb-3" id="category">
+                                <option selected="" disabled>Select Category</option>
+                                <option value="Kids">Kids</option>
+                                <option value="Young">Young</option>
+                                <option value="Adult">Adult</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="simpleinput" class="form-label">Quantity</label>
+                            <input type="text" id="quantity" class="form-control" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="simpleinput" class="form-label">Publication Date</label>
+                            <input type="text" id="basic-datepicker" class="form-control flatpickr-input active" placeholder="Basic datepicker" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <button type="button" class="btn btn-primary" id="btnSave" onclick="SaveBook()">Save</button>
+                    </div>
+                    @*  <div class="col-lg-3">
+                        <button type="button" class="btn btn-primary" id="btnUpdate">Update</button>
+                    </div> *@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+
+    <script>
+        function SaveBook(){
+                bookObj = {
+            title: $("#title").val(),
+            author: $("#author").val(),
+            category: $("#category").val(),
+            quantity: parseInt($("#quantity").val()),
+            publicationDate: new Date($("#basic-datepicker").val()).toISOString().split('T')[0],
+            created_By: "Admin",
+            created_On: new Date().toISOString(),
+            updated_By: "string",
+            updated_On: new Date().toISOString() 
+        };
+
+        console.log(bookObj);
+
+            var isValid = true;
+
+                // Validation logic
+                if ($('#title').val()) {
+                    $("#title").removeClass('is-invalid').addClass('is-valid');
+                } else {
+                    $("#title").removeClass('is-valid').addClass('is-invalid');
+                    isValid = false;
+                }
+
+                  if ($('#author').val()) {
+                    $("#author").removeClass('is-invalid').addClass('is-valid');
+                } else {
+                    $("#author").removeClass('is-valid').addClass('is-invalid');
+                    isValid = false;
+                }
+
+                    if ($('#category').val()) {
+                    $("#category").removeClass('is-invalid').addClass('is-valid');
+                } else {
+                    $("#category").removeClass('is-valid').addClass('is-invalid');
+                    isValid = false;
+                }
+                        if ($('#quantity').val()) {
+                    $("#quantity").removeClass('is-invalid').addClass('is-valid');
+                } else {
+                    $("#quantity").removeClass('is-valid').addClass('is-invalid');
+                    isValid = false;
+                }
+                         if ($('#basic-datepicker').val()) {
+                    $("#basic-datepicker").removeClass('is-invalid').addClass('is-valid');
+                } else {
+                    $("#basic-datepicker").removeClass('is-valid').addClass('is-invalid');
+                    isValid = false;
+                }
+              if (isValid) {
+            $.ajax({
+                url: 'https://localhost:7187/api/BookManagement/SaveBook',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(bookObj),
+                success: function (resp) {
+                    Swal.fire({
+                        title: 'Saved!',
+                        text: 'Book has been Save successfully!',
+                        icon: 'success',
+                    }).then(function () {
+                        window.location.href = window.location.origin + "/home/BooKManagement";
+                    });
+                },
+                error: function (err) {
+                    console.error(err);
+                    alert("Error occurred while.");
+                }
+            });
+        }
+        }
+
+        
+    </script>
+}

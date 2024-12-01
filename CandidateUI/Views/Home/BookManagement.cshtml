@@ -1,0 +1,88 @@
+﻿@section Styles {
+
+
+    <style>
+        .AddBook-Div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Attex</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Tables</a></li>
+                    <li class="breadcrumb-item active">Data Tables</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Data Tables</h4>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="AddBook-Div mb-4">
+                    <h4 class="header-title">All Books</h4>
+                    <a class="btn btn-primary" href="@Url.Action("AddBook", "Home")">Add Book</a>
+                </div>
+                <table id="BookTable" class="table table-striped dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th>Book_Id</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Category</th>
+                            <th>Quanity</th>
+                            <th>Publicaion Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+            </div> <!-- end card body-->
+        </div> <!-- end card -->
+    </div><!-- end col-->
+</div>
+
+@section Scripts {
+        <script>
+    $(document).ready(function(){
+        GetAllBooks();
+    });
+
+    function GetAllBooks(){
+        $('#BookTable').DataTable({
+            ajax: {
+                url: 'https://localhost:7187/api/BookManagement/GetAllBooks',
+                type: 'GET',
+                dataSrc: ''
+            },
+            columns: [
+                { data: 'book_Id' },
+                { data: 'title' },
+                { data: 'author' },
+                { data: 'category' },
+                { data: 'quantity' },
+                { data: 'publicationDate' },
+                {
+                    data: "book_Id",
+                    render: function (a, b, c) {
+                        return `<span class="text-info" style="cursor: pointer; font-size: 1.2rem;" onclick="redirectgetByID(${a})"><i class="ri-edit-box-line"></i></span>
+                                &nbsp;&nbsp;&nbsp;
+                                <span class="text-danger" style="cursor: pointer; font-size: 1.2rem;" onclick="deleteCondidate(${a})"><i class="ri-delete-bin-7-line"></i></span>`;
+                    }
+                }
+            ]
+        });
+    }
+</script>
+
+}

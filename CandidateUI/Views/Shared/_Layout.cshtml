@@ -31,6 +31,43 @@
 
     <link href="~/assets/css/icons.min.css" rel="stylesheet" />
 
+
+    <!-- Select2 css -->
+    <link href="~/assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Daterangepicker css -->
+    <link href="~/assets/vendor/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css" />
+
+    <!-- Bootstrap Touchspin css -->
+    <link href="~/assets/vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Bootstrap Datepicker css -->
+    <link href="~/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Bootstrap Timepicker css -->
+    <link href="~/assets/vendor/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Flatpickr Timepicker css -->
+    <link href="~/assets/vendor/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Theme Config Js -->
+    <script src="~/assets/js/config.js"></script>
+
+    <!-- App css -->
+    <link href="~/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
+
+    <!-- Icons css -->
+    <link href="~/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Datatables CSS -->
+    <link href="~/assets/vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/vendor/datatables.net-fixedcolumns-bs5/css/fixedColumns.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/vendor/datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/vendor/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/vendor/datatables.net-select-bs5/css/select.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css" rel="stylesheet">
+
 </head>
     <body data-simplebar data-simplebar-primary>
         <div class="wrapper">
@@ -483,8 +520,11 @@
                                 <ul class="side-nav-second-level">
                                     
                                     <li>
-                                    <a href="@Url.Action("CandidateTable","Home")">Data Tables</a>
+                                    <a href="@Url.Action("CandidateTable","Home")">Member Management</a>
                                     </li>
+                                <li>
+                                    <a href="@Url.Action("BooKManagement","Home")">Book Management</a>
+                                </li>
                                 </ul>
                             </div>
                         </li>
@@ -558,7 +598,60 @@
     <script src="~/assets/js/app.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    
+
+    <!--  Select2 Plugin Js -->
+    <script src="~/assets/vendor/select2/js/select2.min.js"></script>
+
+    <!-- Daterangepicker Plugin js -->
+    <script src="~/assets/vendor/daterangepicker/moment.min.js"></script>
+    <script src="~/assets/vendor/daterangepicker/daterangepicker.js"></script>
+
+    <!-- Bootstrap Datepicker Plugin js -->
+    <script src="~/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
+    <!-- Bootstrap Timepicker Plugin js -->
+    <script src="~/assets/vendor/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+
+    <!-- Input Mask Plugin js -->
+    <script src="~/assets/vendor/jquery-mask-plugin/jquery.mask.min.js"></script>
+
+    <!-- Bootstrap Touchspin Plugin js -->
+    <script src="~/assets/vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
+
+    <!-- Bootstrap Maxlength Plugin js -->
+    <script src="~/assets/vendor/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+
+    <!-- Typehead Plugin js -->
+    <script src="~/assets/vendor/handlebars/handlebars.min.js"></script>
+    <script src="~/assets/vendor/typeahead.js/typeahead.bundle.min.js"></script>
+
+    <!-- Flatpickr Timepicker Plugin js -->
+    <script src="~/assets/vendor/flatpickr/flatpickr.min.js"></script>
+
+    <!-- Typehead Demo js -->
+    <script src="~/assets/js/pages/demo.typehead.js"></script>
+
+    <!-- Timepicker Demo js -->
+    <script src="~/assets/js/pages/demo.timepicker.js"></script>
+
+
+    <!-- Datatables JS -->
+    <script src="~/assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-fixedcolumns-bs5/js/fixedColumns.bootstrap5.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
+    <script src="~/assets/js/pages/demo.datatable-init.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

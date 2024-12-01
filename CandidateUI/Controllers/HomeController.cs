@@ -32,6 +32,14 @@ namespace CandidateUI.Controllers
         public IActionResult Register()
         {
             return View();
+        } 
+        public IActionResult BookManagement()
+        {
+            return View();
+        }
+          public IActionResult AddBook()
+        {
+            return View();
         }
 
        
