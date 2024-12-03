@@ -42,17 +42,9 @@ namespace Candidates_Project.Implementation
                                 Address = sdr["Address"].ToString(),
                                 IsAdmin = bool.Parse(sdr["IsAdmin"].ToString()),
                                 Created_By = sdr["Created_By"].ToString(),
-
-
-                                Created_On = sdr["Created_On"] != DBNull.Value && DateTime.TryParse(sdr["Created_On"].ToString(), out DateTime createdOn)
-                                    ? (DateTime?)createdOn
-                                    : null,
-
+                                Created_On = sdr["Created_On"] != DBNull.Value && DateTime.TryParse(sdr["Created_On"].ToString(), out DateTime createdOn)?(DateTime?)createdOn:null,
                                 Updated_By = sdr["Updated_By"].ToString(),
-
-                                Updated_On = sdr["Updated_On"] != DBNull.Value && DateTime.TryParse(sdr["Updated_On"].ToString(), out DateTime updatedOn)
-                                    ? (DateTime?)updatedOn
-                                    : null
+                                Updated_On = sdr["Updated_On"] != DBNull.Value && DateTime.TryParse(sdr["Updated_On"].ToString(), out DateTime updatedOn)?(DateTime?)updatedOn: null
                             };
                             candidates.Add(candidate);
                         }

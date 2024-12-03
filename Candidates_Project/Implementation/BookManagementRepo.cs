@@ -220,7 +220,7 @@ namespace Candidates_Project.Implementation
             return r;
         }
 
-        public Response DeleteCandidate(int Book_Id)
+        public Response DeleteBook(int Book_Id)
         {
             int rowDeleted = 0;
             Response r = new Response();

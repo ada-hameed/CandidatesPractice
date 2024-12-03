@@ -1,12 +1,13 @@
-﻿
-<div class="row">
+﻿<div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    @*  <li class="breadcrumb-item"><a href="javascript: void(0);">Attex</a></li>
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
-                    <li class="breadcrumb-item active">Form Elements</li> *@
+                    @*  
+               <li class="breadcrumb-item"><a href="javascript: void(0);">Attex</a></li>
+               <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+               <li class="breadcrumb-item active">Form Elements</li>
+               *@
                 </ol>
             </div>
             <h4 class="page-title">Add Book</h4>
@@ -49,10 +50,8 @@
                             <input type="text" id="quantity" class="form-control" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
                         </div>
                     </div>
-
                 </div>
                 <div class="row">
-
                     <div class="col-lg-6">
                         <div class="mb-3">
                             <label for="simpleinput" class="form-label">Publication Date</label>
@@ -62,22 +61,30 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-3">
-                        <button type="button" class="btn btn-primary" id="btnSave" onclick="SaveBook()">Save</button>
+                        <button type="button" class="btn btn-primary" id="btnSave">Save</button>
                     </div>
-                    @*  <div class="col-lg-3">
-                        <button type="button" class="btn btn-primary" id="btnUpdate">Update</button>
-                    </div> *@
+                    @*  
+               <div class="col-lg-3">
+                  <button type="button" class="btn btn-primary" id="btnUpdate">Update</button>
+               </div>
+               *@
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-
 @section Scripts {
-
     <script>
+        let searchResult = new URLSearchParams(window.location.search)
+        let id = searchResult.get("Book_Id")
+
+        $(document).ready(function () {
+         if (id) {
+             $('#btnSave').text("UPDATE")
+             GetBookById()
+         }
+         });
+
         function SaveBook(){
                 bookObj = {
             title: $("#title").val(),
@@ -88,7 +95,7 @@
             created_By: "Admin",
             created_On: new Date().toISOString(),
             updated_By: "string",
-            updated_On: new Date().toISOString() 
+            updated_On: new Date().toISOString()
         };
 
         console.log(bookObj);
@@ -151,6 +158,110 @@
         }
         }
 
-        
+        function GetBookById(){
+            $.ajax({
+                url:'https://localhost:7187/api/BookManagement/GetByBookId/' + id,
+                type:'GET',
+                contentType:'application/json',
+                success:function(resp){
+                $("#title").val(resp.respObj.title),
+                $("#author").val(resp.respObj.author),
+                $("#category").val(resp.respObj.category).trigger('change'),
+                $("#quantity").val(resp.respObj.quantity),
+                $("#basic-datepicker").val(resp.respObj.publicationDate)
+                },
+            error: function (err) {
+                console.log('Error')
+            }
+            })
+        }
+
+        function UpdateBook(){
+
+             var isValid = true;
+
+                // Validation logic
+                if ($('#title').val()) {
+                    $("#title").removeClass('is-invalid').addClass('is-valid');
+                } else {
+                    $("#title").removeClass('is-valid').addClass('is-invalid');
+                    isValid = false;
+                }
+
+                  if ($('#author').val()) {
+                    $("#author").removeClass('is-invalid').addClass('is-valid');
+                } else {
+                    $("#author").removeClass('is-valid').addClass('is-invalid');
+                    isValid = false;
+                }
+
+                 if ($('#category').val()) {
+                    $("#category").removeClass('is-invalid').addClass('is-valid');
+                } else {
+                    $("#category").removeClass('is-valid').addClass('is-invalid');
+                    isValid = false;
+                }
+                   if ($('#quantity').val()) {
+                    $("#quantity").removeClass('is-invalid').addClass('is-valid');
+                }
+                else {
+                    $("#quantity").removeClass('is-valid').addClass('is-invalid');
+                    isValid = false;
+                   }
+                   if ($('#basic-datepicker').val()) {
+                    $("#basic-datepicker").removeClass('is-invalid').addClass('is-valid');
+                }
+                else {
+                    $("#basic-datepicker").removeClass('is-valid').addClass('is-invalid');
+                    isValid = false;
+                }
+
+                let bookObj = {
+                Book_Id:id,
+                title: $("#title").val(),
+                author: $("#author").val(),
+                category: $("#category").val(),
+                quantity: parseInt($("#quantity").val()),
+                publicationDate: new Date($("#basic-datepicker").val()).toISOString().split('T')[0],
+                created_By: "Admin",
+                created_On: new Date().toISOString(),
+                updated_By: "string",
+                updated_On: new Date().toISOString()
+                };
+
+                if(isValid){
+
+                $.ajax({
+                    url:'https://localhost:7187/api/BookManagement/UpdateBook',
+                    type:'PUT',
+                    contentType:'application/json',
+                    data:JSON.stringify(bookObj),
+                    success:function(resp){
+                      if(resp.resp == true){
+                         Swal.fire({
+                        title: 'Update!',
+                        text: 'Book has been updated successfully!',
+                        icon: 'success',
+                    }).then(function(){
+                          window.location.href = window.location.origin + "/home/BookManagement";
+
+                    });
+                      }
+                },
+                error: function (err) {
+                    console.error(err);
+                    alert("Error occurred while updating the book.");
+                }
+                });
+                }
+        }
+
+        $('#btnSave').click(function () {
+        if (id) {
+            UpdateBook();
+        } else {
+            SaveBook() ;
+        }
+        });
     </script>
 }

@@ -50,9 +50,9 @@ namespace Candidates_Project.Controllers
         }
         [HttpDelete("{Book_Id}")]
 
-        public IActionResult DeleteCandidate(int Book_Id)
+        public IActionResult DeleteBook(int Book_Id)
         {
-            var book = bookManagementRepo.DeleteCandidate(Book_Id);
+            var book = bookManagementRepo.DeleteBook(Book_Id);
             return Ok(book);
         }
 

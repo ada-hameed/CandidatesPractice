@@ -40,6 +40,9 @@ namespace CandidateUI.Controllers
           public IActionResult AddBook()
         {
             return View();
+        }      public IActionResult ForgetPassword()
+        {
+            return View();
         }
 
        

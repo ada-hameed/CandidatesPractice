@@ -8,6 +8,6 @@ namespace Candidates_Project.Repository
         public Response GetByBookId(int Book_Id);
         public Response SaveBook(BookManagement bookManagement);
         public Response UpdateBook(BookManagement bookManagement);
-        public Response DeleteCandidate(int Book_Id);
+        public Response DeleteBook(int Book_Id);
     }
 }
