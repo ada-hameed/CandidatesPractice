@@ -1,12 +1,13 @@
-﻿
-<div class="row">
+﻿<div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    @*  <li class="breadcrumb-item"><a href="javascript: void(0);">Attex</a></li>
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
-                    <li class="breadcrumb-item active">Form Elements</li> *@
+                    @*  
+               <li class="breadcrumb-item"><a href="javascript: void(0);">Attex</a></li>
+               <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+               <li class="breadcrumb-item active">Form Elements</li>
+               *@
                 </ol>
             </div>
             <h4 class="page-title">Add Candidate</h4>
@@ -40,15 +41,12 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="mb-3">
-                            <label for="simpleinput" class="form-label">Age</label>
-                            <input type="text" id="age" class="form-control" maxlength="2" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+                            <label for="simpleinput" class="form-label">Password</label>
+                            <input type="password" id="password" class="form-control" @* onchange="encodePassword(this)" *@>
                         </div>
                     </div>
-
                 </div>
                 <div class="row">
-
-
                     <div class="col-lg-6">
                         <div class="mb-3">
                             <label for="simpleinput" class="form-label">Gender</label>
@@ -56,17 +54,15 @@
                                 <option selected="" disabled>Select Gender</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
-
                             </select>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="mb-3">
-                            <label for="simpleinput" class="form-label">Address</label>
-                            <input type="text" id="address" class="form-control">
+                            <label for="simpleinput" class="form-label">Age</label>
+                            <input type="text" id="age" class="form-control" maxlength="2" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="mb-3">
@@ -75,28 +71,32 @@
                                     <option selected="" disabled>Select Role</option>
                                     <option value="true">Admin</option>
                                     <option value="false">User</option>
-
                                 </select>
                             </div>
                         </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="simpleinput" class="form-label">Address</label>
+                                <input type="text" id="address" class="form-control">
+                            </div>
+                        </div>
                     </div>
-
                 </div>
                 <div class="row">
                     <div class="col-lg-3">
                         <button type="button" class="btn btn-primary" id="btnSave">Save</button>
                     </div>
-                    @*  <div class="col-lg-3">
-                        <button type="button" class="btn btn-primary" id="btnUpdate">Update</button>
-                    </div> *@
+                    @*  
+               <div class="col-lg-3">
+                  <button type="button" class="btn btn-primary" id="btnUpdate">Update</button>
+               </div>
+               *@
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 @section Scripts {
-
     <script>
         let searchResult = new URLSearchParams(window.location.search)
         let id = searchResult.get("id")
@@ -107,7 +107,6 @@
         }
         });
 
-
         function SaveCandidate() {
         let emp = {
             name: $('#name').val(),
@@ -116,8 +115,8 @@
             age: $('#age').val(),
             gender: $('#gender').val(),
             address: $('#address').val(),
-
-        isAdmin: JSON.parse($("#role").val()),
+            password:$("#password").val(),
+            isAdmin: JSON.parse($("#role").val()),
             created_By: "string",
             created_On: new Date().toISOString(),
             updated_By: "string",
@@ -172,6 +171,13 @@
             isValid = false;
         }
 
+         if ($('#password').val()) {
+            $("#password").removeClass('is-invalid').addClass('is-valid');
+        } else {
+            $("#password").removeClass('is-valid').addClass('is-invalid');
+            isValid = false;
+        }
+
         if (isValid) {
             $.ajax({
                 url: 'https://localhost:7187/api/Candidate/SaveCandidate',
@@ -219,6 +225,7 @@
                 $("#email").val(resp.respObj.email);
                 $("#age").val(resp.respObj.age);
                 $("#gender").val(resp.respObj.gender).trigger('change');
+                $("#password").val(resp.respObj.password);
                 $("#role").val(role).trigger('change');
                 $("#address").val(resp.respObj.address);
 
@@ -289,6 +296,7 @@
             age: $('#age').val(),
             gender: $('#gender').val(),
             address: $('#address').val(),
+            password:$("#password").val(),
             isAdmin: JSON.parse($("#role").val()),
             created_By: "string",
             created_On: new Date().toISOString(),

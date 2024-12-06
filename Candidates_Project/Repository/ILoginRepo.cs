@@ -4,7 +4,7 @@ namespace Candidates_Project.Repository
 {
     public interface ILoginRepo
     {
-        public bool SaveLogin(Login login);
+        public Response SaveLogin(Login login);
 
     }
 }

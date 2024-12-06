@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Content Remove="Views\Home\Login.cshtml" />
+    <Content Remove="Views\Home\Register.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

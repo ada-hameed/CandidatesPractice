@@ -40,14 +40,17 @@ namespace CandidateUI.Controllers
           public IActionResult AddBook()
         {
             return View();
-        }      public IActionResult ForgetPassword()
+        }  
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
+        public IActionResult UserDashBoard()
         {
             return View();
         }
 
-       
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+            [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

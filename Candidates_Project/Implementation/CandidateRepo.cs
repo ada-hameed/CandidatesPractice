@@ -2,6 +2,7 @@
 using Candidates_Project.Repository;
 using Microsoft.Data.SqlClient;
 using System.Data.SqlClient;
+using System.Text;
 namespace Candidates_Project.Implementation
 {
     public class CandidateRepo : ICandidateRepo
@@ -89,6 +90,7 @@ namespace Candidates_Project.Implementation
                             candidate.Gender = sdr["Gender"].ToString();
                             candidate.Address = sdr["Address"].ToString();
                             candidate.IsAdmin = bool.Parse(sdr["IsAdmin"].ToString());
+                            candidate.Password = sdr["Password"].ToString();
                             candidate.Created_By = sdr["Created_By"].ToString();
                             if (sdr["Created_On"] != DBNull.Value && !string.IsNullOrEmpty(sdr["Created_On"].ToString()))
                             {
@@ -149,8 +151,9 @@ namespace Candidates_Project.Implementation
 
                 using (SqlConnection con = new SqlConnection(config.GetConnectionString("AlphaDev")))
                 {
-                    string query = "INSERT INTO Candidates_Practice (Name, Phone,Email, Age, Gender, Address,IsAdmin,Created_By,Created_On) VALUES (@Name, @Phone,@Email, @Age, @Gender, @Address,@IsAdmin,@Created_By,@Created_On);";
+                    string query = "INSERT INTO Candidates_Practice (Name, Phone, Email, Age, Gender, Address, IsAdmin, Password, Created_By, Created_On) VALUES (@Name, @Phone, @Email, @Age, @Gender, @Address, @IsAdmin, @Password, @Created_By, @Created_On);";
                     SqlCommand cmd = new SqlCommand(query, con);
+
                     cmd.Parameters.AddWithValue("@Name", candidate.Name);
                     cmd.Parameters.AddWithValue("@Phone", candidate.Phone);
                     cmd.Parameters.AddWithValue("@Email", candidate.Email);
@@ -158,9 +161,12 @@ namespace Candidates_Project.Implementation
                     cmd.Parameters.AddWithValue("@Gender", candidate.Gender);
                     cmd.Parameters.AddWithValue("@Address", candidate.Address);
                     cmd.Parameters.AddWithValue("@IsAdmin", candidate.IsAdmin);
+
+                    string base64Password = Convert.ToBase64String(Encoding.UTF8.GetBytes(candidate.Password));
+                    cmd.Parameters.AddWithValue("@Password", base64Password);
+
                     cmd.Parameters.AddWithValue("@Created_By", candidate.Created_By);
                     cmd.Parameters.AddWithValue("@Created_On", candidate.Created_On);
-                  
 
                     con.Open();
 
@@ -196,7 +202,7 @@ namespace Candidates_Project.Implementation
             {
                 using (SqlConnection con = new SqlConnection(config.GetConnectionString("AlphaDev")))
                 {
-                    string query = "UPDATE Candidates_Practice SET Name = @Name, Phone = @Phone, Email = @Email, Age = @Age, Gender = @Gender, Address = @Address,IsAdmin = @IsAdmin,Updated_By = @Updated_By,Updated_On = @Updated_On WHERE Id = @Id";
+                    string query = "UPDATE Candidates_Practice SET Name = @Name, Phone = @Phone, Email = @Email, Age = @Age, Gender = @Gender, Address = @Address, IsAdmin = @IsAdmin, Password = @Password, Updated_By = @Updated_By, Updated_On = @Updated_On WHERE Id = @Id";
 
                     SqlCommand cmd = new SqlCommand(query, con);
 
@@ -207,6 +213,11 @@ namespace Candidates_Project.Implementation
                     cmd.Parameters.AddWithValue("@Gender", candidate.Gender);
                     cmd.Parameters.AddWithValue("@Address", candidate.Address);
                     cmd.Parameters.AddWithValue("@IsAdmin", candidate.IsAdmin);
+
+                    
+                    string base64Password = Convert.ToBase64String(Encoding.UTF8.GetBytes(candidate.Password));
+                    cmd.Parameters.AddWithValue("@Password", base64Password);
+
                     cmd.Parameters.AddWithValue("@Updated_By", candidate.Updated_By);
                     cmd.Parameters.AddWithValue("@Updated_On", candidate.Updated_On);
                     cmd.Parameters.AddWithValue("@Id", candidate.Id);

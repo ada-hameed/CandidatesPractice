@@ -3,30 +3,22 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-
-
 <head>
     <meta charset="utf-8" />
     <title>Log In | Attex - Bootstrap 5 Admin & Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
-
     <!-- App favicon -->
     <link rel="shortcut icon" href="~/assets/images/favicon.ico">
-
     <!-- Theme Config Js -->
     <script src="~/assets/js/config.js"></script>
-
     <!-- App css -->
     <link href="~/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
-
     <!-- Icons css -->
     <link href="~/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.js"></script>
-
 </head>
-
 <body class="authentication-bg position-relative">
     <div class="position-absolute start-0 end-0 start-0 bottom-0 w-100 h-100">
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1920 1028">
@@ -200,21 +192,17 @@
             <div class="row justify-content-center">
                 <div class="col-xxl-4 col-lg-5">
                     <div class="card">
-
                         <!-- Logo -->
                         <div class="card-header py-4 text-center bg-primary">
                             <a href="index.html">
                                 <span><img src="~/assets/images/logo.png" alt="logo" height="22"></span>
                             </a>
                         </div>
-
                         <div class="card-body p-4">
-
                             <div class="mb-3">
                                 <label for="emailaddress" class="form-label">Email address</label>
                                 <input class="form-control" type="email" id="email" required="" placeholder="Enter your email">
                             </div>
-
                             <div class="mb-3">
                                 <a href="@Url.Action("ForgetPassword","Home")" class="text-muted float-end fs-12">Forgot your password?</a>
                                 <label for="password" class="form-label">Password</label>
@@ -225,29 +213,28 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="mb-3 mb-3">
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="checkbox-signin" checked>
                                     <label class="form-check-label" for="checkbox-signin">Remember me</label>
                                 </div>
                             </div>
-
                             <div class="mb-3 mb-0 text-center">
                                 <button class="btn btn-primary" type="submit" onclick="SaveLogin()"> Log In </button>
                             </div>
-                        </div> <!-- end card-body -->
+                        </div>
+                        <!-- end card-body -->
                     </div>
                     <!-- end card -->
-
                     <div class="row mt-3">
                         <div class="col-12 text-center">
                             <p class="text-muted bg-body">Don't have an account? <a href="@Url.Action("Register","Home")" class="text-muted ms-1 link-offset-3 text-decoration-underline"><b>Sign Up</b></a></p>
-                        </div> <!-- end col -->
+                        </div>
+                        <!-- end col -->
                     </div>
                     <!-- end row -->
-
-                </div> <!-- end col -->
+                </div>
+                <!-- end col -->
             </div>
             <!-- end row -->
         </div>
@@ -256,18 +243,16 @@
     <!-- end page -->
     <!-- Vendor js -->
     <script src="~/assets/js/vendor.min.js"></script>
-
     <!-- App js -->
     <script src="~/assets/js/app.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.js"></script>
     <script>
         function SaveLogin(){
 
             loginObj={
                 email:$("#email").val(),
-                password:$("#password").val()
+                password:$("#password").val(),
             };
 
                  let isValid = true;
@@ -293,7 +278,7 @@
                     contentType: 'application/json',
                     data: JSON.stringify(loginObj),
                     success: function (resp) {
-                     if (resp == true) {
+                    if (resp.respObj == true) {
                            Swal.fire({
                 icon: 'success',
                 title: 'Login Successful',
@@ -303,6 +288,17 @@
                 window.location.href = window.location.origin + "/home/Index";
             });
         }
+        else if (resp.resp === true) {
+                   Swal.fire({
+                icon: 'success',
+                title: 'Login Successful',
+                // text: 'Welcome back!',
+                confirmButtonText: 'OK'
+            }).then(function(){
+            window.location.href = `${window.location.origin}/home/UserDashBoard`;
+            });
+        }
+
         else{
             Swal.fire({
             icon: 'error',
@@ -310,7 +306,7 @@
             text: 'Account does not exist. Please try again or sign up.',
             confirmButtonText: 'Retry'
         });
-         $("#email").val("");
+         $("#email").val();
         $("#password").val("");
           $("#email").removeClass('is-valid ').addClass('is-invalid');
           $("#password").removeClass('is-valid').addClass('is-invalid');
@@ -321,9 +317,6 @@
                     }
 
                 });
-            }
-            else{
-
             }
         }
     </script>

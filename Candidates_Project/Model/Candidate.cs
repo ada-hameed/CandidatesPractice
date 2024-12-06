@@ -10,6 +10,7 @@
         public string Gender { get; set; }
         public string Address { get; set; }
         public bool IsAdmin { get; set; }
+        public string Password { get; set; }
         public string Created_By { get; set; }
         public DateTime? Created_On { get; set; }
         public string Updated_By { get; set; }
