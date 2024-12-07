@@ -11,34 +11,45 @@ namespace Candidates_Project.Implementation
         {
             this.config = config;
         }
-        public Response  SaveLogin(Login login)
+        public Response SaveLogin(Login login)
         {
             Response r = new Response();
+
             try
             {
-                string encodedText = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(login.password));
                 using (SqlConnection con = new SqlConnection(config.GetConnectionString("AlphaDev")))
                 {
-                    string query = "SELECT isAdmin FROM Candidates_Practice WHERE Email = @Email AND  Password = @Password ";
+                    string query = "SELECT Password, IsAdmin FROM Candidates_Practice WHERE Email = @Email";
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@Email", login.email);
-                    cmd.Parameters.AddWithValue("@Password", encodedText);
-                    
+
                     con.Open();
-                    var sdr = cmd.ExecuteReader();
-                    if (sdr.HasRows && sdr.Read())
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows && reader.Read())
                     {
-                        // Retrieve the value as a boolean
-                        bool isAdmin = sdr.GetBoolean(sdr.GetOrdinal("isAdmin"));
-                        r.resp = true;
-                        r.respMsg = "User found";
-                        r.respObj = isAdmin; // Pass the boolean value
-                        return r;
+                        string storedHashedPassword = reader.GetString(reader.GetOrdinal("Password"));
+                        bool isAdmin = reader.GetBoolean(reader.GetOrdinal("IsAdmin"));
+
+                        if (BCrypt.Net.BCrypt.Verify(login.password, storedHashedPassword))
+                        {
+                            r.resp = true;
+                            r.respMsg = "User found";
+                            r.respObj = isAdmin;
+                            return r;
+                        }
+                        else
+                        {
+                            r.resp = false;
+                            r.respMsg = "Invalid password";
+                            r.respObj = null;
+                            return r;
+                        }
                     }
                     else
                     {
-
-                        r.respMsg = "user not found";
+                        r.resp = false;
+                        r.respMsg = "User not found";
                         r.respObj = null;
                         return r;
                     }
@@ -46,8 +57,12 @@ namespace Candidates_Project.Implementation
             }
             catch (Exception ex)
             {
-                return null;
+                r.resp = false;
+                r.respMsg = $"An error occurred: {ex.Message}";
+                r.respObj = null;
+                return r;
             }
         }
+
     }
 }

@@ -1,0 +1,65 @@
+[
+  {
+    "outputFileName": "wwwroot/css/app.bundle.css",
+    "inputFiles": [
+      "wwwroot/assets/css/app.min.css",
+      "wwwroot/assets/css/icons.min.css",
+      "wwwroot/assets/vendor/select2/css/select2.min.css",
+      "wwwroot/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css",
+      "wwwroot/assets/vendor/bootstrap-timepicker/css/bootstrap-timepicker.min.css",
+      "wwwroot/assets/vendor/flatpickr/flatpickr.min.css",
+      "wwwroot/assets/vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css",
+      "wwwroot/assets/vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css",
+      "wwwroot/assets/vendor/datatables.net-fixedcolumns-bs5/css/fixedColumns.bootstrap5.min.css",
+      "wwwroot/assets/vendor/datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.min.css",
+      "wwwroot/assets/vendor/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css",
+      "wwwroot/assets/vendor/datatables.net-select-bs5/css/select.bootstrap5.min.css",
+      "https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css"
+    ],
+    "minify": {
+      "enabled": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/app.bundle.js",
+    "inputFiles": [
+      "wwwroot/assets/js/vendor.min.js",
+      "wwwroot/assets/vendor/daterangepicker/moment.min.js",
+      "wwwroot/assets/vendor/daterangepicker/daterangepicker.js",
+      "wwwroot/assets/vendor/apexcharts/apexcharts.min.js",
+      "wwwroot/assets/vendor/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js",
+      "wwwroot/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js",
+      "wwwroot/assets/js/pages/demo.dashboard.js",
+      "wwwroot/assets/js/app.min.js",
+      "https://cdn.jsdelivr.net/npm/sweetalert2@11",
+      "wwwroot/assets/vendor/select2/js/select2.min.js",
+      "wwwroot/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
+      "wwwroot/assets/vendor/bootstrap-timepicker/js/bootstrap-timepicker.min.js",
+      "wwwroot/assets/vendor/jquery-mask-plugin/jquery.mask.min.js",
+      "wwwroot/assets/vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js",
+      "wwwroot/assets/vendor/bootstrap-maxlength/bootstrap-maxlength.min.js",
+      "wwwroot/assets/vendor/handlebars/handlebars.min.js",
+      "wwwroot/assets/vendor/typeahead.js/typeahead.bundle.min.js",
+      "wwwroot/assets/vendor/flatpickr/flatpickr.min.js",
+      "wwwroot/assets/js/pages/demo.typehead.js",
+      "wwwroot/assets/js/pages/demo.timepicker.js",
+      "wwwroot/assets/vendor/datatables.net/js/jquery.dataTables.min.js",
+      "wwwroot/assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js",
+      "wwwroot/assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js",
+      "wwwroot/assets/vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js",
+      "wwwroot/assets/vendor/datatables.net-fixedcolumns-bs5/js/fixedColumns.bootstrap5.min.js",
+      "wwwroot/assets/vendor/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js",
+      "wwwroot/assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js",
+      "wwwroot/assets/vendor/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js",
+      "wwwroot/assets/vendor/datatables.net-buttons/js/buttons.html5.min.js",
+      "wwwroot/assets/vendor/datatables.net-buttons/js/buttons.flash.min.js",
+      "wwwroot/assets/vendor/datatables.net-buttons/js/buttons.print.min.js",
+      "wwwroot/assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js",
+      "wwwroot/assets/vendor/datatables.net-select/js/dataTables.select.min.js",
+      "wwwroot/assets/js/pages/demo.datatable-init.js"
+    ],
+    "minify": {
+      "enabled": true
+    }
+  }
+]

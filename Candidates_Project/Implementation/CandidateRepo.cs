@@ -3,11 +3,13 @@ using Candidates_Project.Repository;
 using Microsoft.Data.SqlClient;
 using System.Data.SqlClient;
 using System.Text;
+using BCrypt.Net;
 namespace Candidates_Project.Implementation
 {
     public class CandidateRepo : ICandidateRepo
     {
         private readonly IConfiguration config;
+
 
         public CandidateRepo(IConfiguration config)
         {
@@ -162,8 +164,10 @@ namespace Candidates_Project.Implementation
                     cmd.Parameters.AddWithValue("@Address", candidate.Address);
                     cmd.Parameters.AddWithValue("@IsAdmin", candidate.IsAdmin);
 
-                    string base64Password = Convert.ToBase64String(Encoding.UTF8.GetBytes(candidate.Password));
-                    cmd.Parameters.AddWithValue("@Password", base64Password);
+                    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(candidate.Password);
+                    cmd.Parameters.AddWithValue("@Password", hashedPassword);
+                    //string base64Password = Convert.ToBase64String(Encoding.UTF8.GetBytes(candidate.Password));
+                    //cmd.Parameters.AddWithValue("@Password", base64Password);
 
                     cmd.Parameters.AddWithValue("@Created_By", candidate.Created_By);
                     cmd.Parameters.AddWithValue("@Created_On", candidate.Created_On);
@@ -214,9 +218,8 @@ namespace Candidates_Project.Implementation
                     cmd.Parameters.AddWithValue("@Address", candidate.Address);
                     cmd.Parameters.AddWithValue("@IsAdmin", candidate.IsAdmin);
 
-                    
-                    string base64Password = Convert.ToBase64String(Encoding.UTF8.GetBytes(candidate.Password));
-                    cmd.Parameters.AddWithValue("@Password", base64Password);
+                    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(candidate.Password);
+                    cmd.Parameters.AddWithValue("@Password", hashedPassword);
 
                     cmd.Parameters.AddWithValue("@Updated_By", candidate.Updated_By);
                     cmd.Parameters.AddWithValue("@Updated_On", candidate.Updated_On);
