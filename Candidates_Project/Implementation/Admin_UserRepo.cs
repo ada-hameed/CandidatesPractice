@@ -14,6 +14,7 @@ namespace Candidates_Project.Implementation
         {
             this.config = config;
         }
+
         public List<Admin_User> GetAllAdminUser()
         {
             List<Admin_User> admin_Users = new List<Admin_User>();

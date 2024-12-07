@@ -166,9 +166,7 @@ namespace Candidates_Project.Implementation
 
                     string hashedPassword = BCrypt.Net.BCrypt.HashPassword(candidate.Password);
                     cmd.Parameters.AddWithValue("@Password", hashedPassword);
-                    //string base64Password = Convert.ToBase64String(Encoding.UTF8.GetBytes(candidate.Password));
-                    //cmd.Parameters.AddWithValue("@Password", base64Password);
-
+                
                     cmd.Parameters.AddWithValue("@Created_By", candidate.Created_By);
                     cmd.Parameters.AddWithValue("@Created_On", candidate.Created_On);
 
